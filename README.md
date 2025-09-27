@@ -34,6 +34,7 @@ npm run dev
 ![Screenshot 5](public/5.png)
 ![Screenshot 6](public/6.png)
 ![Screenshot 7](public/7.png)
+![Screenshot 8](public/bigger.jpg)
 
 
 
