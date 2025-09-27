@@ -1,16 +1,43 @@
-# React + Vite
+🏛️ CivicLink
+CivicLink is a role-based civic engagement platform built with React, Vite, and Tailwind CSS. It empowers citizens to report issues and authorities to manage them through intuitive dashboards, real-time notifications, and a clean, responsive UI.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🚀 Features
+- 📰 Citizen Feed – View public issues and updates
+- 📝 Report Issues – Submit civic problems with location and description
+- 🏛️ Authority Dashboard – Manage and resolve reported issues
+- 🔐 Role-Based Access – Separate views for citizens and authorities
+- 🔔 Notifications – Real-time alerts for new reports and resolutions
+- 🎨 Responsive Design – Built with Tailwind CSS for sleek UI
 
-Currently, two official plugins are available:
+🛠️ Tech Stack
+- Frontend: React + Vite
+- Styling: Tailwind CSS
+- Routing: React Router
+- State Management: useState, useEffect
+- Storage: localStorage (for prototype)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+📦 Installation
+git clone https://github.com/PatelChirang/CivicLink.git
+cd CivicLink
+npm install
+npm run dev
 
-## React Compiler
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+📸 Screenshots
+## 📸 App Screenshots
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+![Screenshot 1](public/1.png)
+![Screenshot 2](public/2.png)
+![Screenshot 3](public/3.png)
+![Screenshot 4](public/4.png)
+![Screenshot 5](public/5.png)
+![Screenshot 6](public/6.png)
+![Screenshot 7](public/7.png)
+
+
+
+📄 License
+This project is licensed under the MIT License.
+
+
