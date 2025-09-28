@@ -1,6 +1,8 @@
 🏛️ CivicLink
 CivicLink is a role-based civic engagement platform built with React, Vite, and Tailwind CSS. It empowers citizens to report issues and authorities to manage them through intuitive dashboards, real-time notifications, and a clean, responsive UI.
 
+If you cloned this repo, I’d love to hear from you! Open an issue or drop a star ⭐ to let me know.
+
 🚀 Features
 - 📰 Citizen Feed – View public issues and updates
 - 📝 Report Issues – Submit civic problems with location and description
