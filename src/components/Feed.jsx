@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import ImageModal from "./ImageModal"; // ✅ import modal
 
 export default function Feed({ issues, setIssues }) {
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const handleUpvote = (id) => {
     setIssues(
       issues.map((issue) =>
@@ -29,17 +32,11 @@ export default function Feed({ issues, setIssues }) {
           const yes = (issue.verifyYes || 0) + (vote === "yes" ? 1 : 0);
           const no = (issue.verifyNo || 0) + (vote === "no" ? 1 : 0);
 
-          // Decide outcome (threshold = 3 votes for demo)
           if (yes >= 3) {
-            return { ...issue, archived: true }; // issue closed
+            return { ...issue, archived: true };
           }
           if (no >= 3) {
-            return {
-              ...issue,
-              status: "Reported",
-              verifyYes: 0,
-              verifyNo: 0,
-            }; // re-opened
+            return { ...issue, status: "Reported", verifyYes: 0, verifyNo: 0 };
           }
 
           return { ...issue, verifyYes: yes, verifyNo: no };
@@ -57,6 +54,9 @@ export default function Feed({ issues, setIssues }) {
   return (
     <div className="min-h-screen bg-slate-100 p-6">
       <h2 className="text-2xl font-bold text-sky-600 mb-6">📰 Issues Feed</h2>
+
+      {/* ✅ Fullscreen Image Modal */}
+      <ImageModal image={selectedImage} onClose={() => setSelectedImage(null)} />
 
       {/* Counters */}
       <div className="flex gap-4 mb-6">
@@ -84,11 +84,20 @@ export default function Feed({ issues, setIssues }) {
               >
                 {/* Image */}
                 {issue.image && (
-                  <img
-                    src={issue.image}
-                    alt="Issue"
-                    className="w-full object-cover rounded-xl mb-3"
-                  />
+                  <div className="relative">
+                    <img
+                      src={issue.image}
+                      alt="Issue"
+                      className="w-full h-40 object-cover rounded-xl mb-3"
+                    />
+                    {/* ✅ View full button */}
+                    <button
+                      onClick={() => setSelectedImage(issue.image)}
+                      className="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded-md hover:bg-opacity-80"
+                    >
+                      🔍 View Full
+                    </button>
+                  </div>
                 )}
 
                 {/* Info */}
@@ -96,9 +105,7 @@ export default function Feed({ issues, setIssues }) {
                   {issue.issueType}
                 </h3>
                 <p className="text-slate-600 mb-2">{issue.description}</p>
-                <p className="text-sm text-slate-500 mb-2">
-                  📍 {issue.location}
-                </p>
+                <p className="text-sm text-slate-500 mb-2">📍 {issue.location}</p>
 
                 {/* Status */}
                 <p className="text-sm font-medium mb-3">

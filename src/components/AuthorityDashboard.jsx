@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNotification } from "./NotificationContext";
+import ImageModal from "./ImageModal"; 
+import Heatmap from "./Heatmap"; // ✅ Import heatmap
 
 export default function AuthorityDashboard({ issues, setIssues }) {
   const { addNotification } = useNotification();
+  const [selectedImage, setSelectedImage] = useState(null);
 
   // Filter out archived issues (verified as resolved by citizens)
   const activeIssues = issues.filter((i) => !i.archived);
@@ -34,6 +37,9 @@ export default function AuthorityDashboard({ issues, setIssues }) {
         🏛️ Authority Dashboard
       </h2>
 
+      {/* ✅ Fullscreen Image Modal */}
+      <ImageModal image={selectedImage} onClose={() => setSelectedImage(null)} />
+
       {/* Counters */}
       <div className="flex gap-4 mb-6">
         <span className="bg-sky-100 text-sky-700 px-3 py-1 rounded-xl text-sm">
@@ -47,6 +53,12 @@ export default function AuthorityDashboard({ issues, setIssues }) {
         </span>
       </div>
 
+      {/* ✅ Heatmap Section */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold mb-3">🔥 Civic Issues Heatmap</h3>
+        <Heatmap issues={activeIssues} />
+      </div>
+
       {sortedIssues.length === 0 ? (
         <p className="text-slate-600">No active issues right now.</p>
       ) : (
@@ -57,20 +69,27 @@ export default function AuthorityDashboard({ issues, setIssues }) {
               className="bg-white shadow-md rounded-2xl p-4 border"
             >
               {issue.image && (
-                <img
-                  src={issue.image}
-                  alt="Issue"
-                  className="w-full h-48 object-cover rounded-xl mb-3"
-                />
+                <div className="relative">
+                  <img
+                    src={issue.image}
+                    alt="Issue"
+                    className="w-full h-48 object-cover rounded-xl mb-3"
+                  />
+                  {/* ✅ View full button */}
+                  <button
+                    onClick={() => setSelectedImage(issue.image)}
+                    className="absolute bottom-2 right-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded-md hover:bg-opacity-80"
+                  >
+                    🔍 View Full
+                  </button>
+                </div>
               )}
 
               <h3 className="text-xl font-semibold text-slate-800">
                 {issue.issueType}
               </h3>
               <p className="text-slate-600">{issue.description}</p>
-              <p className="text-sm text-slate-500 mb-2">
-                📍 {issue.location}
-              </p>
+              <p className="text-sm text-slate-500 mb-2">📍 {issue.location}</p>
 
               <p className="text-sm font-medium mb-3">
                 Upvotes: <span className="text-green-600">{issue.upvotes}</span>

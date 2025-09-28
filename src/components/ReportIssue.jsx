@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 export default function ReportIssue({ addIssue }) {
   const [image, setImage] = useState(null);
   const [issueType, setIssueType] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState(""); // manual or auto string
+  const [coords, setCoords] = useState({ lat: null, lng: null }); // raw numbers
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
 
@@ -13,8 +14,10 @@ export default function ReportIssue({ addIssue }) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-          const coords = `${pos.coords.latitude}, ${pos.coords.longitude}`;
-          setLocation(coords);
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          setCoords({ lat, lng });
+          setLocation(`${lat.toFixed(5)}, ${lng.toFixed(5)}`); // readable
         },
         () => alert("Location access denied. Enter manually.")
       );
@@ -25,7 +28,7 @@ export default function ReportIssue({ addIssue }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!issueType || !location) {
+    if (!issueType || (!location && !coords.lat)) {
       alert("Please select issue type and location.");
       return;
     }
@@ -34,10 +37,13 @@ export default function ReportIssue({ addIssue }) {
       id: Date.now(),
       image,
       issueType,
-      location,
+      location: location || "Auto-detected", // fallback
       description,
+      lat: coords.lat, // ✅ for heatmap
+      lng: coords.lng, // ✅ for heatmap
       upvotes: 0,
       status: "Reported",
+      comments: [],
     };
 
     addIssue(newIssue);
@@ -55,7 +61,9 @@ export default function ReportIssue({ addIssue }) {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setImage(URL.createObjectURL(e.target.files[0]))}
+            onChange={(e) =>
+              setImage(e.target.files[0] ? URL.createObjectURL(e.target.files[0]) : null)
+            }
             className="w-full border p-3 rounded-xl"
           />
 
@@ -82,7 +90,7 @@ export default function ReportIssue({ addIssue }) {
           ></textarea>
 
           {/* Location */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <input
               type="text"
               placeholder="Enter location manually"
@@ -98,6 +106,12 @@ export default function ReportIssue({ addIssue }) {
               📍 Detect
             </button>
           </div>
+          {/* Show detected coords if available */}
+          {coords.lat && coords.lng && (
+            <p className="text-xs text-green-600">
+              Auto-detected: {coords.lat.toFixed(5)}, {coords.lng.toFixed(5)}
+            </p>
+          )}
 
           {/* Submit */}
           <button
